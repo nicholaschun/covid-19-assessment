@@ -8,8 +8,14 @@ const infectionByTimeRequest = (currentlyInfected, periodType, days) => {
 const covid19ImpactEstimator = (data) => {
   const output = {
     data,
-    impact: {},
-    severeImpact: {}
+    impact: {
+      currentlyInfected: 0,
+      infectionByTimeRequest: 0
+    },
+    severeImpact: {
+      currentlyInfected: 0,
+      infectionByTimeRequest: 0
+    }
   };
 
   output.impact.currentlyInfected = data.reportedCases * 10;
