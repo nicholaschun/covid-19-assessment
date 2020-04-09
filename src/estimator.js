@@ -21,6 +21,8 @@ const covid19ImpactEstimator = (data) => {
     data.periodType,
     data.timeToElapse
   );
+
+  return output;
 };
 
 export default covid19ImpactEstimator;
