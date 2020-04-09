@@ -2,7 +2,9 @@ import calCulateActualDay from './util';
 
 const infectionByTimeRequest = (currentlyInfected, periodType, days) => {
   const actualDays = calCulateActualDay(periodType, days);
-  return Math.floor(currentlyInfected * 2 ** (actualDays / 3));
+  const findFactor = Math.floor(actualDays / 3);
+  const powerOf = Math.floor(2 ** findFactor);
+  return Math.floor(currentlyInfected * powerOf);
 };
 
 const fifteenPercentOfInfectionByTime = (infectionsByTime) => infectionsByTime * 0.15;
