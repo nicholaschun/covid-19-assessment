@@ -2,7 +2,7 @@ import calCulateActualDay from './util';
 
 const infectionByTimeRequest = (currentlyInfected, periodType, days) => {
   const actualDays = calCulateActualDay(periodType, days);
-  return Math.floor(currentlyInfected * 2 ** actualDays);
+  return Math.floor(currentlyInfected * 2 ** (actualDays / 3));
 };
 
 const covid19ImpactEstimator = (data) => {

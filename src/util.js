@@ -1,11 +1,11 @@
 const calCulateActualDay = (periodType, timeToElapse) => {
   let result = null;
   if (periodType === 'days') {
-    result = Math.floor(timeToElapse / 3);
+    result = timeToElapse;
   } else if (periodType === 'weeks') {
-    result = Math.floor((timeToElapse * 7) / 3);
+    result = Math.floor(timeToElapse * 7);
   } else if (periodType === 'months') {
-    result = Math.floor((timeToElapse * 30) / 3);
+    result = Math.floor(timeToElapse * 30);
   } else {
     return null;
   }
