@@ -2,16 +2,16 @@ import calCulateActualDay from './util';
 
 const infectionByTimeRequest = (currentlyInfected, periodType, days) => {
   const actualDays = calCulateActualDay(periodType, days);
-  const findFactor = Math.floor(actualDays / 3);
-  const powerOf = Math.floor(2 ** findFactor);
-  return Math.floor(currentlyInfected * powerOf);
+  const findFactor = Math.trunc(actualDays / 3);
+  const powerOf = Math.trunc(2 ** findFactor);
+  return Math.trunc(currentlyInfected * powerOf);
 };
 
 const fifteenPercentOfInfectionByTime = (infectionsByTime) => infectionsByTime * 0.15;
 
-const fivePercentReqeuestByTime = (infectionByTime) => Math.floor(infectionByTime * 0.05);
+const fivePercentReqeuestByTime = (infectionByTime) => Math.trunc(infectionByTime * 0.05);
 
-const twoPercentReqeuestByTime = (infectionByTime) => Math.floor(infectionByTime * 0.02);
+const twoPercentReqeuestByTime = (infectionByTime) => Math.trunc(infectionByTime * 0.02);
 
 const calDollarsInFlight = (
   infectionByTime,
@@ -20,7 +20,7 @@ const calDollarsInFlight = (
   requestedTime
 ) => {
   const result = infectionByTime * averageDailyIncomePop * averageIncome * requestedTime;
-  const dollarLost = +result.toFixed(2);
+  const dollarLost = Math.trunc(result);
   return dollarLost;
 };
 
@@ -28,7 +28,7 @@ const numberOfAvailableBeds = (
   severeCasesByRequestedTime,
   totalHospitalBeds
 ) => {
-  const actualTotalBeds = Math.round(0.35 * totalHospitalBeds);
+  const actualTotalBeds = Math.trunc(0.35 * totalHospitalBeds);
   const numberOfBeds = actualTotalBeds - severeCasesByRequestedTime;
 
   return numberOfBeds;
