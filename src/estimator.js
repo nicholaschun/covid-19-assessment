@@ -1,4 +1,4 @@
-import calCulateActualDay from './util';
+const calCulateActualDay = require('./util');
 
 const infectionByTimeRequest = (currentlyInfected, periodType, days) => {
   const actualDays = calCulateActualDay(periodType, days);
@@ -113,4 +113,4 @@ const covid19ImpactEstimator = (data) => {
   return output;
 };
 
-export default covid19ImpactEstimator;
+module.exports = covid19ImpactEstimator;

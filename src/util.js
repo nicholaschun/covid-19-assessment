@@ -12,4 +12,4 @@ const calCulateActualDay = (periodType, timeToElapse) => {
   return result;
 };
 
-export default calCulateActualDay;
+module.exports = calCulateActualDay;
