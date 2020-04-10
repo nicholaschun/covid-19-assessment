@@ -26,7 +26,12 @@ handlers.notFound = (data, callback) => {
   callback(404);
 };
 
+handlers.getHome = (data, callback) => {
+  callback(200, 'Covid-19 Estimator Api');
+};
+
 const router = {
+  '/': handlers.getHome,
   '/api/v1/on-covid-19': handlers.getData,
   '/api/v1/on-covid-19/json': handlers.getJsonData,
   '/api/v1/on-covid-19/xml': handlers.getXmlData,
