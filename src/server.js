@@ -3,6 +3,8 @@ const url = require('url');
 const { StringDecoder } = require('string_decoder');
 const covid19ImpactEstimator = require('./estimator');
 
+const port = process.env.PORT || 5000;
+
 const handlers = {};
 
 handlers.getData = (data, callback) => {
@@ -70,6 +72,6 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(5000, () => {
+server.listen(port, () => {
   console.log('server is listeninig to port 5000');
 });
