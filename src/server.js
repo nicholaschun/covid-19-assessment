@@ -15,7 +15,8 @@ handlers.getData = (data, callback) => {
 };
 
 handlers.getLogs = (data, callback) => {
-  callback(200);
+//     const 
+//   callback(200, );
 };
 
 handlers.getHome = (data, callback) => {
