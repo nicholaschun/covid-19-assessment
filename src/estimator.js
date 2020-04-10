@@ -19,7 +19,7 @@ const calDollarsInFlight = (
   averageIncome,
   requestedTime
 ) => {
-  const result = infectionByTime * averageDailyIncomePop * averageIncome * requestedTime;
+  const result = (infectionByTime * averageDailyIncomePop * averageIncome) / requestedTime;
   const dollarLost = Math.trunc(result);
   return dollarLost;
 };
