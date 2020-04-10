@@ -7,7 +7,7 @@ const infectionByTimeRequest = (currentlyInfected, periodType, days) => {
   return Math.trunc(currentlyInfected * powerOf);
 };
 
-const fifteenPercentOfInfectionByTime = (infectionsByTime) => infectionsByTime * 0.15;
+const fifteenPercentOfInfectionByTime = (infectionsByTime) => Math.trunc(infectionsByTime * 0.15);
 
 const fivePercentReqeuestByTime = (infectionByTime) => Math.trunc(infectionByTime * 0.05);
 
@@ -28,10 +28,10 @@ const numberOfAvailableBeds = (
   severeCasesByRequestedTime,
   totalHospitalBeds
 ) => {
-  const actualTotalBeds = Math.trunc(0.35 * totalHospitalBeds);
+  const actualTotalBeds = 0.35 * totalHospitalBeds;
   const numberOfBeds = actualTotalBeds - severeCasesByRequestedTime;
 
-  return numberOfBeds;
+  return Math.trunc(numberOfBeds);
 };
 
 const covid19ImpactEstimator = (data) => {
