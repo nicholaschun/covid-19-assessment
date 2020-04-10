@@ -1,5 +1,7 @@
 const http = require('http');
 const url = require('url');
+const xml = require('xml');
+const fs = require('fs');
 const { StringDecoder } = require('string_decoder');
 const covid19ImpactEstimator = require('./estimator');
 
@@ -12,20 +14,8 @@ handlers.getData = (data, callback) => {
   callback(200, result);
 };
 
-handlers.getJsonData = (data, callback) => {
-  callback(406, { name: 'get json data' });
-};
-
-handlers.getXmlData = (data, callback) => {
-  callback(406, { name: 'get xml data' });
-};
-
 handlers.getLogs = (data, callback) => {
-  callback(406, { name: 'getting logs' });
-};
-
-handlers.notFound = (data, callback) => {
-  callback(404);
+  callback(200);
 };
 
 handlers.getHome = (data, callback) => {
@@ -35,15 +25,22 @@ handlers.getHome = (data, callback) => {
 const router = {
   '/': handlers.getHome,
   '/api/v1/on-covid-19': handlers.getData,
-  '/api/v1/on-covid-19/json': handlers.getJsonData,
-  '/api/v1/on-covid-19/xml': handlers.getXmlData,
+  '/api/v1/on-covid-19/json': handlers.getData,
+  '/api/v1/on-covid-19/xml': handlers.getData,
   '/api/v1/on-covid-19/logs': handlers.getLogs
+};
+
+const logData = (data) => {
+  const text = `${data.method} \t \t ${data.path} \n`;
+  const file = fs.createWriteStream('logs.log');
+  file.write(text);
+  file.end();
 };
 
 const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
   const path = parsedUrl.pathname;
-  const method = req.method.toLowerCase();
+  const { method } = req;
   const { headers } = req;
   const decorder = new StringDecoder('utf-8');
 
@@ -55,7 +52,8 @@ const server = http.createServer((req, res) => {
   req.on('end', () => {
     buffer += decorder.end();
 
-    const chosenHandler = typeof router[path] !== 'undefined' ? router[path] : handlers.notFound;
+    const chosenHandler =
+      typeof router[path] !== 'undefined' ? router[path] : handlers.notFound;
 
     const data = {
       path,
@@ -65,10 +63,17 @@ const server = http.createServer((req, res) => {
     };
 
     chosenHandler(data, (statusCode, payload) => {
-      res.setHeader('Content-Type', 'text/xml');
-      res.writeHead(statusCode);
-      res.end(JSON.stringify(payload));
+      if (path === '/api/v1/on-covid-19/xml') {
+        res.setHeader('Content-Type', 'text/xml');
+        res.writeHead(statusCode);
+        res.end(xml(payload));
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.writeHead(statusCode);
+        res.end(JSON.stringify(payload));
+      }
     });
+    logData(data);
   });
 });
 
