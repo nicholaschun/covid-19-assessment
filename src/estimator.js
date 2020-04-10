@@ -17,9 +17,11 @@ const calDollarsInFlight = (
   infectionByTime,
   averageDailyIncomePop,
   averageIncome,
-  requestedTime
+  requestedTime,
+  periodType
 ) => {
-  const result = (infectionByTime * averageDailyIncomePop * averageIncome) / requestedTime;
+  const actualDay = calCulateActualDay(periodType, requestedTime);
+  const result = (infectionByTime * averageDailyIncomePop * averageIncome) / actualDay;
   const dollarLost = Math.trunc(result);
   return dollarLost;
 };
@@ -95,14 +97,16 @@ const covid19ImpactEstimator = (data) => {
     output.impact.infectionsByRequestedTime,
     data.region.avgDailyIncomePopulation,
     data.region.avgDailyIncomeInUSD,
-    data.timeToElapse
+    data.timeToElapse,
+    data.periodType
   );
 
   output.severeImpact.dollarsInFlight = calDollarsInFlight(
     output.severeImpact.infectionsByRequestedTime,
     data.region.avgDailyIncomePopulation,
     data.region.avgDailyIncomeInUSD,
-    data.timeToElapse
+    data.timeToElapse,
+    data.periodType
   );
 
   return output;
