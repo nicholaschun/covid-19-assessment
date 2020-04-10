@@ -37,6 +37,7 @@ const numberOfAvailableBeds = (
 };
 
 const covid19ImpactEstimator = (data) => {
+  console.log(data);
   const output = {
     data,
     impact: {},
