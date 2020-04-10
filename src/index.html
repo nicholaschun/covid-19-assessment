@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="title" content="Covid-19 Estimator" />
+    <meta
+      name="description"
+      content="This is used to estimate and predict covid-19 cases in Africa"
+    />
+    <meta
+      name="keywords"
+      content="Covid-19 Estimator, Covid-19, predict covid-19"
+    />
+    <meta name="author" content="Nicholas Mamiya" />
+    <meta name="”robots”" content="index, follow" />
+
+    <title>My Covid-19 Estimator</title>
+  </head>
+  <style>
+    body {
+      background-color: rgb(89, 185, 230);
+      margin: 0;
+      padding: 0;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    select {
+      border: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 104% !important;
+      -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+    }
+
+    .container {
+      margin: 5% auto;
+      width: 80%;
+      border-radius: 8px;
+      /* padding: 70px 60px; */
+    }
+
+    .title {
+      text-align: center;
+      color: #000000;
+    }
+
+    .form-container {
+      float: left;
+      width: 40%;
+      padding: 20px 40px;
+      background-color: rgb(255, 255, 255);
+      min-height: 450px;
+    }
+
+    .result-container {
+      float: left;
+      width: 40%;
+      padding: 20px 40px;
+      background-color: rgb(235, 212, 228);
+      min-height: 450px;
+    }
+
+    .form-control {
+      display: block;
+      width: 100%;
+      margin: 20px auto;
+    }
+
+    .form-control label {
+      font-size: 0.9em;
+    }
+
+    .form-control input:focus {
+      border: 1px solid rgb(146, 146, 146);
+    }
+
+    .form-control input,
+    select {
+      padding: 10px;
+      outline: none;
+      border-radius: 5px;
+      transition: 1s;
+      width: 100%;
+      border: 1px solid rgb(230, 230, 230);
+    }
+
+    .form-control button {
+      background-color: rgb(173, 66, 66);
+      color: white;
+      padding: 10px 20px;
+      transition: 0.4s;
+      outline: none;
+      border: none;
+      font-size: 1.1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-control button:hover {
+      background-color: rgb(197, 56, 56);
+    }
+
+    .input-data p {
+      font-size: 0.75em;
+    }
+
+    .impact-data p {
+      font-size: 0.75em;
+    }
+
+    .severe-impact-data p {
+      font-size: 0.75em;
+    }
+
+    .result-data {
+      font-weight: bolder;
+    }
+
+    .result-impact-data {
+      font-weight: bolder;
+      color: green;
+    }
+
+    .result-severe-data {
+      font-weight: bolder;
+      color: rgb(128, 0, 0);
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="title"><h3>Covid-19 Impact Estimator</h3></div>
+      <div class="form-container">
+        <form id="estimatorForm" method="POST">
+          <div class="form-control">
+            <label for="population">Population:</label><br />
+            <input
+              type="number"
+              data-population
+              id="population"
+              name="population"
+            /><br />
+          </div>
+          <div class="form-control">
+            <label for="timeToElapse">Time To Elapse:</label><br />
+            <input
+              type="number"
+              id="timeToElapse"
+              data-time-to-elapse
+              name="timeToElapse"
+            /><br />
+          </div>
+          <div class="form-control">
+            <label for="reportedCases">Reported Cases:</label><br />
+            <input
+              type="number"
+              id="reportedCases"
+              data-reported-cases
+              name="reportedCases"
+            /><br />
+          </div>
+          <div class="form-control">
+            <label for="totalHospitalBeds">Total Hospital Beds</label><br />
+            <input
+              type="number"
+              id="totalHospitalBeds"
+              data-total-hospital-beds
+              name="totalHospitalBeds"
+            /><br />
+          </div>
+          <div class="form-control">
+            <label for="periodType">Period Type:</label><br />
+            <select name="periodType" id="periodType" data-period-type>
+              <option value="days">Days</option>
+              <option value="weeks">Weeks</option>
+              <option value="months">Months</option>
+            </select>
+          </div>
+          <div class="form-control">
+            <button type="submit" id="submit" data-go-estimate>Estimate</button>
+          </div>
+        </form>
+      </div>
+      <div class="result-container">
+        <div>
+          <div class="input-data">
+            <h5>Input Data</h5>
+            <p>Population : <span id="inputPopulation"></span></p>
+            <p>Time To Elapse : <span id="inputTime"></span></p>
+            <p>Reported Cases : <span id="inputReportedCases"></span></p>
+            <p>Total Hospital Beds : <span id="inputHospitalBeds"></span></p>
+            <p>Period Type : <span id="inputPeriodType"></span></p>
+          </div>
+          <div class="impact-data">
+            <h5>Impact</h5>
+            <p>Current Infected : <span id="impactCurrentInfected"></span></p>
+            <p>
+              Infections By Requested Time :
+              <span id="impactInfectionsByRequestedTime"></span>
+            </p>
+            <p>
+              Severe Cases By Requested Time :
+              <span id="impactCasesByRequestedTime"></span>
+            </p>
+            <p>
+              Cases For ICU By Requested Time :
+              <span id="impactForICUByReqeustedTime"></span>
+            </p>
+            <p>
+              Cases For Ventilators By Requested Time :
+              <span id="impactForCasesForVentilators"></span>
+            </p>
+            <p>
+              Hospital Beds By Requested Time:
+              <span id="impactHospitalBedsByRequestedTime"></span>
+            </p>
+            <p>Dollars In Flight : <span id="impactDollarsInFlight"></span></p>
+          </div>
+          <div class="severe-impact-data">
+            <h5>Severe Impact</h5>
+            <p>Current Infected : <span id="severeCurrentInfected"></span></p>
+            <p>
+              Infections By Requested Time :
+              <span id="severeInfectionsByRequestedTime"></span>
+            </p>
+            <p>
+              Severe Cases By Requested Time :
+              <span id="severeCasesByRequestedTime"></span>
+            </p>
+            <p>
+              Cases For ICU By Requested Time :
+              <span id="severeForICUByReqeustedTime"></span>
+            </p>
+            <p>
+              Cases For Ventilators By Requested Time :
+              <span id="severeForCasesForVentilators"></span>
+            </p>
+            <p>
+              Hospital Beds By Requested Time :
+              <span id="severeHospitalBedsByRequestedTime"></span>
+            </p>
+            <p>Dollars In Flight : <span id="severeDollarsInFlight"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
